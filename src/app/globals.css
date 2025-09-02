@@ -136,7 +136,7 @@ margin: 0 auto;
     .header ul {
         flex-direction: row;
         align-items: center;
-        gap: 6px;
+        gap: 4px;
         padding: 5px;
     }
     .header li a{
