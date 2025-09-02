@@ -599,6 +599,8 @@ body {
   
   .header {
     background: #90a4bb99;
+    padding: 3px;
+    margin: 3px;
   }
   .header a {
     font-size: 12px;
@@ -675,7 +677,7 @@ body {
     display: block;
     margin: 0 auto;
     position: absolute;
-    left: 20px;
+    left: 25px;
     top: 295px;
     border-radius: 30px;
     background-color: #7f97597d;
@@ -763,6 +765,15 @@ body {
 }
 
 @media (max-width: 480px) {
+    .header {
+    background: #90a4bb99;
+    padding: 3px;
+    margin: 3px;
+  }
+  .logo {
+    width: 50px;
+  }
+
   .container1 {
     min-height: 50vh;
     min-width: 30vh;
@@ -772,7 +783,7 @@ body {
     font-size: 0.8em;
     padding: 10px;
     position: relative;
-    top: 250px;
+    top: 138px;
     width: 90%;
   }
   
