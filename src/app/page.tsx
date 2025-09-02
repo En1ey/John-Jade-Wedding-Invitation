@@ -4,8 +4,15 @@ import Image from "next/image";
 import { supabase } from "@/utils/Supabase/client";
 import "./globals.css";
 
+// Define a proper type for gifts instead of `any`
+interface Gift {
+  id: number;
+  name: string;
+  is_taken: boolean;
+}
+
 export default function Home() {
-  const [gifts, setGifts] = useState<any[]>([]);
+  const [gifts, setGifts] = useState<Gift[]>([]);
   
   // Debug: Check if supabase is imported correctly
   console.log('Supabase client in component:', supabase);
@@ -122,7 +129,7 @@ export default function Home() {
           </ul>
         </header>
         <div className="content" id="home">
-          <h1>WE'RE GETTING MARRIED</h1>
+          <h1>WE&apos;RE GETTING MARRIED</h1>
           <h2>October 25, 2025 | Opol, Cagayan de Oro City</h2>
           <h3>John & Jade</h3>
           <Image src="/assests/img/6.png" alt="Bottom-img" className="bottom-img" width={800} height={500}/>
@@ -156,7 +163,7 @@ export default function Home() {
             <div className="venue-details">
               <h2>Reception</h2>
               <h3>
-                <span><br/>Chito's Kitchen</span>
+                <span><br/>Chito&apos;s Kitchen</span>
                 <br/>Opol, Misamis Oriental
                 <br/>October 25, 2025 | 3:00 PM
                 <br/>
@@ -181,101 +188,100 @@ export default function Home() {
       </div>
 
       {/* GIFT GUIDE */}
-    <div className="container6" id="giftguide">
-      <h1>Gift Guide</h1>
-      <h2>Your presence is already the greatest gift. <br/>But if you wish to bless us more, we would truly appreciate a gift of cash or any little help for our new beginning. Below are gift ideas.
-      </h2>
+      <div className="container6" id="giftguide">
+        <h1>Gift Guide</h1>
+        <h2>Your presence is already the greatest gift. <br/>But if you wish to bless us more, we would truly appreciate a gift of cash or any little help for our new beginning. Below are gift ideas.</h2>
 
-      <div className="gift-columns">
-        {loading && (
-      <div className="gift-loading">
-         Loading gifts...
-      </div>
-      )}
-    
-      {error && (
-      <div className="gift-error">
-        ❌ Error: {error}
-      </div>
-      )}
-    
-      {!loading && !error && gifts.length === 0 && (
-      <div className="gift-empty">
-        📋 No gifts found in database. Please check your Supabase connection.
-      </div>
-      )}
-    
-      {!loading && gifts.length > 0 && (
-      <ul className="gift-list">
-        {gifts.map((gift) => (
-          <li 
-            key={gift.id} 
-            className={`gift-item ${gift.is_taken ? "taken" : ""}`}
-          >
-            <span className={gift.is_taken ? "gift-taken" : ""}>
-              {gift.is_taken ? '' : ''}
-              {gift.name}
-            </span>
-            <button 
-              disabled={gift.is_taken || loading} 
-              onClick={() => reserveGift(gift.id, gift.name)}
-              className={`gift-btn ${gift.is_taken ? "reserved" : ""}`}
+        <div className="gift-columns">
+          {loading && (
+            <div className="gift-loading">
+              Loading gifts...
+            </div>
+          )}
+        
+          {error && (
+            <div className="gift-error">
+              ❌ Error: {error}
+            </div>
+          )}
+        
+          {!loading && !error && gifts.length === 0 && (
+            <div className="gift-empty">
+              📋 No gifts found in database. Please check your Supabase connection.
+            </div>
+          )}
+        
+          {!loading && gifts.length > 0 && (
+            <ul className="gift-list">
+              {gifts.map((gift) => (
+                <li 
+                  key={gift.id} 
+                  className={`gift-item ${gift.is_taken ? "taken" : ""}`}
+                >
+                  <span className={gift.is_taken ? "gift-taken" : ""}>
+                    {gift.name}
+                  </span>
+                  <button 
+                    disabled={gift.is_taken || loading} 
+                    onClick={() => reserveGift(gift.id, gift.name)}
+                    className={`gift-btn ${gift.is_taken ? "reserved" : ""}`}
+                  >
+                    {gift.is_taken ? "Reserved" : "Reserve"}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+
+          {/* ADD GIFT SECTION */}
+          <div className="add-gift">
+            <h3>Want to give something else?</h3>
+            <form
+              onSubmit={async (e) => {
+                e.preventDefault();
+                const formData = new FormData(e.currentTarget);
+                const giftName = formData.get("giftName")?.toString().trim();
+
+                if (!giftName) return;
+
+                try {
+                  setLoading(true);
+                  setError(null);
+
+                  const { data, error } = await supabase
+                    .from("gifts")
+                    .insert([{ name: giftName, is_taken: false }]);
+
+                  if (error) {
+                    console.error("Error adding gift:", error);
+                    setError(`Failed to add gift: ${error.message}`);
+                  } else {
+                    console.log("Gift added:", data);
+                    fetchGifts(); // refresh list
+                    e.currentTarget.reset(); // clear input
+                  }
+                } catch (err) {
+                  setError("Failed to add gift");
+                  console.error(err);
+                } finally {
+                  setLoading(false);
+                }
+              }}
             >
-              {gift.is_taken ? "Reserved" : "Reserve"}
-            </button>
-          </li>
-        ))}
-      </ul>
-      )}
+              <input
+                type="text"
+                name="giftName"
+                placeholder="Enter your gift idea"
+                className="gift-input"
+                required
+              />
+              <button type="submit" className="gift-add-btn">➕ Add Gift</button>
+            </form>
+          </div>
 
-      {/* ADD GIFT SECTION */}
-      <div className="add-gift">
-        <h3>Want to give something else?</h3>
-      <form
-        onSubmit={async (e) => {
-          e.preventDefault();
-          const formData = new FormData(e.currentTarget);
-          const giftName = formData.get("giftName")?.toString().trim();
-
-            if (!giftName) return;
-
-            try {
-              setLoading(true);
-              setError(null);
-
-          const { data, error } = await supabase
-            .from("gifts")
-            .insert([{ name: giftName, is_taken: false }]);
-
-          if (error) {
-            console.error("Error adding gift:", error);
-            setError(`Failed to add gift: ${error.message}`);
-          } else {
-            console.log("Gift added:", data);
-            fetchGifts(); // refresh list
-            e.currentTarget.reset(); // clear input
-          }
-        } catch (err) {
-          setError("Failed to add gift");
-          console.error(err);
-        } finally {
-          setLoading(false);
-      }
-    }}
-  >
-            <input
-              type="text"
-              name="giftName"
-              placeholder="Enter your gift idea"
-              className="gift-input"
-              required
-            />
-          <button type="submit" className="gift-add-btn">➕ Add Gift</button>
-        </form>
+        </div>
       </div>
 
-    </div>
-  </div>
       {/* REMINDERS */}
       <div className="container7" id="reminders">
         <h1>Reminders</h1>
@@ -286,7 +292,6 @@ export default function Home() {
           <li>No boxed gifts please, we prefer practical items listed above.</li>
         </ul>
       </div>
-
     </>
   );
 }
