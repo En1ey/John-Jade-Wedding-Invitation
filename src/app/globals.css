@@ -49,7 +49,7 @@ body {
   transform: translateX(-50%);
   width: 100%;
   text-align: center;
-  background: #90a4bbae;
+  background: #90a4bb99;
   z-index: 1000;
   background-size: cover;
   background-position: center;
@@ -597,6 +597,9 @@ body {
     width: 60px;
   }
   
+  .header {
+    background: rgba(144, 164, 187, .518)
+  }
   .header a {
     font-size: 12px;
   }
