@@ -4,41 +4,49 @@ import Image from "next/image";
 import { supabase } from "@/utils/Supabase/client";
 import "./globals.css";
 
-// Define a proper type for gifts instead of `any`
+// Define a proper type for gifts
 interface Gift {
   id: number;
   name: string;
   is_taken: boolean;
+  reserved_by?: string;
+  created_at?: string;
 }
 
 export default function Home() {
   const [gifts, setGifts] = useState<Gift[]>([]);
-  
-  // Debug: Check if supabase is imported correctly
-  console.log('Supabase client in component:', supabase);
-  console.log('Supabase client type:', typeof supabase);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [customGift, setCustomGift] = useState("");
+  const [isAddingGift, setIsAddingGift] = useState(false);
 
   useEffect(() => {
-  async function loadGifts() {
-    const { data, error } = await supabase.from("gifts").select("*");
-    if (error) {
-      console.error("Error fetching gifts:", error);
-    } else {
-      console.log("Gifts:", data); // Debug here
-      setGifts(data);
-    }
-  }
-  loadGifts();
-}, []);
+    fetchGifts();
+
+    // Set up real-time subscription
+    const subscription = supabase
+      .channel("gifts-changes")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "gifts" },
+        () => {
+          console.log("Real-time update received");
+          fetchGifts();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(subscription);
+    };
+  }, []);
 
   const fetchGifts = async () => {
     try {
       setLoading(true);
       setError(null);
       
-      console.log("Attempting to fetch gifts...");
+      console.log("Fetching gifts from Supabase...");
       
       const { data, error } = await supabase
         .from("gifts")
@@ -50,15 +58,15 @@ export default function Home() {
       if (error) {
         console.error("Supabase error:", error);
         setError(`Database error: ${error.message}`);
-        throw error;
+        return;
       }
       
-      console.log("Fetched gifts:", data);
+      console.log("Successfully fetched gifts:", data);
       setGifts(data || []);
       
     } catch (err) {
       console.error("Error fetching gifts:", err);
-      setError(err instanceof Error ? err.message : "Unknown error occurred");
+      setError(err instanceof Error ? err.message : "Failed to load gifts");
     } finally {
       setLoading(false);
     }
@@ -66,7 +74,7 @@ export default function Home() {
 
   const reserveGift = async (id: number, giftName: string) => {
     try {
-      console.log("Reserving gift with ID:", id);
+      console.log("Reserving gift:", giftName, "ID:", id);
       
       // Optimistically update the UI
       setGifts(prevGifts => 
@@ -104,6 +112,47 @@ export default function Home() {
           gift.id === id ? { ...gift, is_taken: false } : gift
         )
       );
+    }
+  };
+
+  const addCustomGift = async () => {
+    if (!customGift.trim()) {
+      setError("Please enter a gift name");
+      return;
+    }
+
+    try {
+      setIsAddingGift(true);
+      setError(null);
+      
+      console.log("Adding custom gift:", customGift);
+      
+      const { data, error } = await supabase
+        .from("gifts")
+        .insert([{ name: customGift.trim(), is_taken: false }])
+        .select()
+        .single();
+        
+      if (error) {
+        console.error("Error adding custom gift:", error);
+        setError(`Failed to add "${customGift}": ${error.message}`);
+      } else {
+        console.log("Custom gift added successfully:", data);
+        setCustomGift(""); // Clear input
+        setError(null);
+        // The real-time subscription will automatically update the list
+      }
+    } catch (err) {
+      console.error("Error in addCustomGift:", err);
+      setError(`Failed to add "${customGift}"`);
+    } finally {
+      setIsAddingGift(false);
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      addCustomGift();
     }
   };
 
@@ -188,93 +237,170 @@ export default function Home() {
         <h1>Gift Guide</h1>
         <h2>Your presence is already the greatest gift. <br/>But if you wish to bless us more, we would truly appreciate a gift of cash or any little help for our new beginning. Below are gift ideas.</h2>
 
+        {/* Debug Panel for Deployment Issues */}
+        {process.env.NODE_ENV === 'development' && (
+          <div style={{ 
+            marginBottom: '20px', 
+            padding: '15px', 
+            backgroundColor: 'rgba(255, 255, 255, 0.9)', 
+            borderRadius: '8px',
+            color: '#000',
+            fontSize: '14px'
+          }}>
+            <p><strong>Debug Info:</strong></p>
+            <p>Loading: {loading ? 'Yes' : 'No'}</p>
+            <p>Error: {error || 'None'}</p>
+            <p>Gifts count: {gifts.length}</p>
+            <p>Supabase URL: {process.env.NEXT_PUBLIC_SUPABASE_URL ? 'Set' : 'Missing'}</p>
+            <p>Supabase Key: {process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ? 'Set' : 'Missing'}</p>
+          </div>
+        )}
+
         <div className="gift-columns">
+          {/* Custom Gift Input Section */}
+          <div style={{
+            marginBottom: '30px',
+            padding: '20px',
+            backgroundColor: 'rgba(255, 255, 255, 0.95)',
+            borderRadius: '12px',
+            boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
+            maxWidth: '600px',
+            margin: '0 auto 30px auto'
+          }}>
+            <h3 style={{ 
+              color: '#333', 
+              marginBottom: '15px', 
+              fontSize: '1.3em',
+              textAlign: 'center'
+            }}>
+              Suggest Your Own Gift Idea
+            </h3>
+            <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+              <input
+                type="text"
+                value={customGift}
+                onChange={(e) => setCustomGift(e.target.value)}
+                onKeyDown={handleKeyDown}
+                placeholder="Enter your gift suggestion..."
+                disabled={isAddingGift}
+                style={{
+                  flex: 1,
+                  padding: '12px 16px',
+                  border: '2px solid #7f9759',
+                  borderRadius: '8px',
+                  fontSize: '1rem',
+                  outline: 'none',
+                  backgroundColor: isAddingGift ? '#f5f5f5' : 'white'
+                }}
+              />
+              <button
+                onClick={addCustomGift}
+                disabled={isAddingGift || !customGift.trim()}
+                style={{
+                  padding: '12px 20px',
+                  backgroundColor: isAddingGift ? '#ccc' : '#7f9759',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '8px',
+                  cursor: isAddingGift || !customGift.trim() ? 'not-allowed' : 'pointer',
+                  fontSize: '1rem',
+                  fontWeight: 'bold',
+                  minWidth: '100px'
+                }}
+              >
+                {isAddingGift ? 'Adding...' : 'Add Gift'}
+              </button>
+            </div>
+            <p style={{ 
+              color: '#666', 
+              fontSize: '0.9em', 
+              marginTop: '10px',
+              textAlign: 'center',
+              fontStyle: 'italic'
+            }}>
+              Share your gift ideas with John & Jade!
+            </p>
+          </div>
+
           {loading && (
-            <div className="gift-loading">
+            <div style={{ color: 'white', fontSize: '1.2em', padding: '20px', textAlign: 'center' }}>
               Loading gifts...
             </div>
           )}
-        
+          
           {error && (
-            <div className="gift-error">
-              ❌ Error: {error}
+            <div style={{ 
+              color: '#ff6b6b', 
+              backgroundColor: 'rgba(255, 255, 255, 0.9)', 
+              padding: '15px', 
+              borderRadius: '8px',
+              margin: '20px',
+              fontSize: '1em',
+              textAlign: 'center'
+            }}>
+              Error: {error}
             </div>
           )}
-        
+          
           {!loading && !error && gifts.length === 0 && (
-            <div className="gift-empty">
-              📋 No gifts found in database. Please check your Supabase connection.
+            <div style={{ 
+              color: 'white', 
+              fontSize: '1.2em', 
+              padding: '20px',
+              backgroundColor: 'rgba(255, 255, 255, 0.1)',
+              borderRadius: '8px',
+              margin: '20px',
+              textAlign: 'center'
+            }}>
+              No gifts found in database.
             </div>
           )}
-        
+          
           {!loading && gifts.length > 0 && (
-            <ul className="gift-list">
-              {gifts.map((gift) => (
-                <li 
-                  key={gift.id} 
-                  className={`gift-item ${gift.is_taken ? "taken" : ""}`}
-                >
-                  <span className={gift.is_taken ? "gift-taken" : ""}>
-                    {gift.name}
-                  </span>
-                  <button 
-                    disabled={gift.is_taken || loading} 
-                    onClick={() => reserveGift(gift.id, gift.name)}
-                    className={`gift-btn ${gift.is_taken ? "reserved" : ""}`}
-                  >
-                    {gift.is_taken ? "Reserved" : "Reserve"}
-                  </button>
-                </li>
-              ))}
-            </ul>
+            <>
+              <div style={{
+                color: 'white',
+                fontSize: '1.1em',
+                marginBottom: '20px',
+                textAlign: 'center'
+              }}>
+                <strong>{gifts.filter(g => !g.is_taken).length}</strong> gifts available • 
+                <strong>{gifts.filter(g => g.is_taken).length}</strong> gifts reserved
+              </div>
+              
+              <ul className="gift-list">
+                {gifts.map((gift) => (
+                  <li key={gift.id} style={{
+                    opacity: gift.is_taken ? 0.7 : 1,
+                    backgroundColor: gift.is_taken ? '#d3d3d3' : '#448de184',
+                    transition: 'all 0.3s ease'
+                  }}>
+                    <span className={gift.is_taken ? "taken" : ""}>
+                      {gift.name}
+                    </span>
+                    <button 
+                      disabled={gift.is_taken || loading} 
+                      onClick={() => reserveGift(gift.id, gift.name)}
+                      style={{ 
+                        marginLeft: '10px',
+                        backgroundColor: gift.is_taken ? '#999' : '#7f9759d7',
+                        color: 'white',
+                        border: 'none',
+                        padding: '8px 16px',
+                        borderRadius: '6px',
+                        cursor: gift.is_taken ? 'not-allowed' : 'pointer',
+                        fontSize: '0.9rem',
+                        fontWeight: 'bold',
+                        transition: 'background-color 0.2s ease'
+                      }}
+                    >
+                      {gift.is_taken ? "Reserved" : "Reserve"}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </>
           )}
-
-          {/* ADD GIFT SECTION */}
-          <div className="add-gift">
-            <h3>Want to give something else?</h3>
-            <form
-              onSubmit={async (e) => {
-                e.preventDefault();
-                const formData = new FormData(e.currentTarget);
-                const giftName = formData.get("giftName")?.toString().trim();
-
-                if (!giftName) return;
-
-                try {
-                  setLoading(true);
-                  setError(null);
-
-                  const { data, error } = await supabase
-                    .from("gifts")
-                    .insert([{ name: giftName, is_taken: false }]);
-
-                  if (error) {
-                    console.error("Error adding gift:", error);
-                    setError(`Failed to add gift: ${error.message}`);
-                  } else {
-                    console.log("Gift added:", data);
-                    fetchGifts(); // refresh list
-                    e.currentTarget.reset(); // clear input
-                  }
-                } catch (err) {
-                  setError("Failed to add gift");
-                  console.error(err);
-                } finally {
-                  setLoading(false);
-                }
-              }}
-            >
-              <input
-                type="text"
-                name="giftName"
-                placeholder="Enter your gift idea"
-                className="gift-input"
-                required
-              />
-              <button type="submit" className="gift-add-btn">➕ Add Gift</button>
-            </form>
-          </div>
-
         </div>
       </div>
 
