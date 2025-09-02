@@ -600,7 +600,7 @@ body {
   .header {
     background: #90a4bb99;
     padding: 3px;
-    margin: 3px;
+    margin-top: 3px;
   }
   .header a {
     font-size: 12px;
@@ -765,11 +765,6 @@ body {
 }
 
 @media (max-width: 480px) {
-    .header {
-    background: #90a4bb99;
-    padding: 3px;
-    margin: 3px;
-  }
   .logo {
     width: 50px;
   }
@@ -795,10 +790,10 @@ body {
   }
   
   .header {
-    position: fixed;
+    position: absolute;
     width: 100%;
-    background-color: var(--primary-blue);
-    margin-top: 10px;
+    background-color:  #90a4bb99;
+    margin-top: 3px;
   }
   
   .img-fluid {
@@ -808,8 +803,6 @@ body {
   .header ul {
     flex-direction: row;
     align-items: center;
-    gap: 4px;
-    padding: 5px;
   }
   
   .header li a {
