@@ -21,21 +21,17 @@ export default function Home() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetchGifts();
-
-    const subscription = supabase
-      .channel("gifts-changes")
-      .on(
-        "postgres_changes",
-        { event: "*", schema: "public", table: "gifts" },
-        () => fetchGifts()
-      )
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(subscription);
-    };
-  }, []);
+  async function loadGifts() {
+    const { data, error } = await supabase.from("gifts").select("*");
+    if (error) {
+      console.error("Error fetching gifts:", error);
+    } else {
+      console.log("Gifts:", data); // Debug here
+      setGifts(data);
+    }
+  }
+  loadGifts();
+}, []);
 
   const fetchGifts = async () => {
     try {
