@@ -182,46 +182,56 @@ export default function Home() {
       </div>
 
       {/* VENUE & SCHEDULE */}
-      <div className="venue-wrapper">
-        <div className="container2" id="venueandschedule">
-          <h1>Venue & Schedule</h1>
-          <div className="venue-schedule-row">
-            <div className="venue-details">
-              <h2>Church Ceremony</h2>
-              <h3>
-                <span><br/>Our Lady of Consolacion Parish Church</span>
-                <br/>Salva Street Corner, Opol, Misamis Oriental
-                <br/>October 25, 2025 | 1:30 PM
-                <br/>
-                <a href="https://maps.google.com" target="_blank" className="map-btn1">Maps</a>
-              </h3>
-            </div>
-            <div className="venue-image">
-              <Image src="/assests/img/church.png" alt="Church Venue" className="venue-photo1" width={400} height={300}/>
-            </div>
-          </div>
+<div className="venue-wrapper">
+  <div className="venue-container" id="venueandschedule">
+    <h1>Venue & Schedule</h1>
+    <div className="venue-grid">
+      {/* Church Ceremony */}
+      <div className="venue-card">
+        <div className="venue-image">
+          <Image 
+            src="/assests/img/church.png" 
+            alt="Church Venue" 
+            className="venue-photo" 
+            width={400} 
+            height={300}
+          />
         </div>
-
-        {/* RECEPTION */}
-        <div className="container3" id="reception2">
-          <div className="venue-schedule-row">
-            <div className="venue-details">
-              <h2>Reception</h2>
-              <h3>
-                <span><br/>Chito&apos;s Kitchen</span>
-                <br/>Opol, Misamis Oriental
-                <br/>October 25, 2025 | 3:00 PM
-                <br/>
-                <a href="https://maps.app.goo.gl/1ZNqpUcFXgPdNSoEA" target="_blank" className="map-btn">Maps</a>
-                <Image src="/assests/img/chitos.png" alt="Map Preview" className="img-phone" width={170} height={300}/>
-              </h3>
-            </div>
-            <div className="venue-image">
-              <Image src="/assests/img/chitos.png" alt="Reception Venue" className="venue-photo2" width={400} height={300}/>
-            </div>
-          </div>
+        <div className="venue-details">
+          <h2>Church Ceremony</h2>
+          <div className="venue-name">Our Lady of Consolacion Parish Church</div>
+          <div className="venue-address">Salva Street Corner, Opol, Misamis Oriental</div>
+          <div className="venue-datetime">October 25, 2025 | 1:30 PM</div>
+          <a href="https://maps.google.com" target="_blank" className="map-btn">
+            View on Maps
+          </a>
         </div>
       </div>
+
+      {/* Reception */}
+      <div className="venue-card">
+        <div className="venue-image">
+          <Image 
+            src="/assests/img/chitos.png" 
+            alt="Reception Venue" 
+            className="venue-photo" 
+            width={400} 
+            height={300}
+          />
+        </div>
+        <div className="venue-details">
+          <h2>Reception</h2>
+          <div className="venue-name">Chito's Kitchen</div>
+          <div className="venue-address">Opol, Misamis Oriental</div>
+          <div className="venue-datetime">October 25, 2025 | 3:00 PM</div>
+          <a href="https://maps.app.goo.gl/1ZNqpUcFXgPdNSoEA" target="_blank" className="map-btn">
+            View on Maps
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
       {/* THEME */}
       <div className="two-column-section" id="theme">
