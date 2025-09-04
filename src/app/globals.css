@@ -186,7 +186,7 @@ body {
 
 .venue-photo {
   width: 100%;
-  max-width: 400px;
+  max-width: 500px;
   height: 250px;
   object-fit: cover;
   border-radius: 15px;
