@@ -103,8 +103,10 @@ body {
   background: var(--primary-blue) url('/assests/img/background1.png') center/cover no-repeat;
   min-height: 95vh;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: flex-end;
   align-items: center;
+  height: 90%
 }
 
 .content {
@@ -121,7 +123,7 @@ body {
 
 .content h1 {
   font: 3em Caveat Brushf;
-  padding-top: 30px;
+  padding-top: 40px;
 }
 
 .content h2 {
@@ -189,12 +191,14 @@ body {
 .venue-wrapper {
   border: none;
 }
+
 .venue-container h2 {
   font: 3.5em Caveat Brushf;
   color: var(--text-white);
   text-align: center;
   padding-top: 10px;
   position: relative;
+  line-height: .5;
 }
 
 .venue-container p {
@@ -210,6 +214,7 @@ body {
   text-align: center;
   position: relative;
   margin-bottom: 30px;
+    line-height: 2;
 }
 
 .venue-container span {
@@ -271,8 +276,13 @@ body {
 
 .venue-name {
   font: 1.8em Caveat Brushf;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   color: white;
+}
+
+.rsvp-image {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
 }
 
 .venue-address {
@@ -324,7 +334,7 @@ body {
   font-size: 1.5em;
   font-style: italic;
   text-align: center;
-  line-height: 1.5;
+  line-height: .1;
   color: white;
   margin-bottom: 15px;
 }
@@ -360,7 +370,7 @@ body {
 }
 
 .container5 h1 {
-  font: 2em Caveat Brushf;
+  font: 3em Caveat Brushf;
   margin-bottom: 10px;
   color: var(--text-white);
   text-align: center;
@@ -371,6 +381,7 @@ body {
   font-size: 1.5em;
   font-weight: normal;
   margin-bottom: 40px;
+  line-height: .1;
   color: var(--text-white);
   padding: 0 70px;
 }
@@ -516,7 +527,9 @@ body {
   justify-content: center;
   align-items: center;
 }
-
+ .container5 label {
+  line-height: 1;
+ }
 /* RESPONSIVE STYLES FOR RSVP */
 @media (max-width: 768px) {
   .container5 {
@@ -629,6 +642,7 @@ body {
   font-family: "Caveat Brushf";
   font-size: 1.5em;
   font-style: italic;
+  line-height: 1;
   font-weight: normal;
   color: var(--text-white);
 }
@@ -849,7 +863,7 @@ body {
 /* RESPONSIVE STYLES */
 @media (max-width: 768px) {
   .logo {
-    width: 60px;
+    width: 45px;
   }
   
   .header {
@@ -1000,7 +1014,7 @@ body {
 
 @media (max-width: 480px) {
   .logo {
-    width: 50px;
+    width: 40px;
   }
 
   .container1 {

@@ -274,7 +274,10 @@ export default function Home() {
       <div className="container1" id="home">
         <header className="header">
           <ul>
-              <li className="logo-container">
+            <li><a href="#venueandschedule">VENUE</a></li>
+            <li><a href="#theme">THEME</a></li>
+            <li><a href="#rsvp">RSVP</a></li>
+            <li className="logo-container">
               <a href="#home">
                 <Image
                   src="/assests/img/logo.png"
@@ -285,16 +288,13 @@ export default function Home() {
                 />
               </a>
               </li>
-            <li><a href="#venueandschedule">EVENT ORDER</a></li>
-            <li><a href="#theme">THEME</a></li>
-            <li><a href="#rsvp">RSVP</a></li>
+            <li><a href="#eventorder">EVENT ORDERS</a></li>
             <li><a href="#giftguide">GIFT GUIDE</a></li>
             <li><a href="#reminders">REMINDERS</a></li>
           </ul>
         </header>
         <div className="content pb-32" id="home">
           <h1>WE&apos;RE GETTING MARRIED!</h1>
-          <span></span>
           <h3>October 25, 2025 | Opol, Misamis Oriental</h3>
         </div>
       </div>  
@@ -302,6 +302,7 @@ export default function Home() {
       {/* VENUE & SCHEDULE */}
       <div className="venue-wrapper">
         <div className="venue-container" id="venueandschedule">
+          <span>  <br/></span>
           <h2>John Vincent</h2>
           <p>and</p>
           <h2>Earla Jade Naiza</h2>
@@ -348,7 +349,7 @@ export default function Home() {
               <div className="venue-details">
                 <div className="venue-name">Chito&apos;s Tuna House</div>
                 <div className="venue-address">Natnl Highway, Taboc, Opol, Misamis Oriental</div>
-                <div className="venue-datetime">After the Ceremony</div>
+                <div className="venue-datetime">     <br/></div>
                 <a
                   href="https://maps.app.goo.gl/1ZNqpUcFXgPdNSoEA"
                   target="_blank"
@@ -457,7 +458,7 @@ export default function Home() {
             </button>
           </div>
         </div>
-          <div className="rsvp-image-section">   
+          <div className="rsvp-image-section" id="eventorder">   
             <h1>EVENTS ORDER</h1> 
             <div className="rsvp-image-container">
               <Image
