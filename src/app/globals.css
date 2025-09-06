@@ -171,7 +171,7 @@ body {
 
 .venue-wrapper span {
   font: 2.5em Caveat Brushf;
-  color: var(--text-white);
+  color: var(--text-white); 
   text-align: center;
   position: relative;
   top: -70px;
