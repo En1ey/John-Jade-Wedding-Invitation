@@ -511,10 +511,10 @@ body {
   text-align: center;
 }
 
-.rsvp-image {
-  position: relative;
+.rsvp-image-container {
+  display: flex;
+  justify-content: center;
   align-items: center;
-  left: 550px;
 }
 
 /* RESPONSIVE STYLES FOR RSVP */
@@ -539,10 +539,6 @@ body {
     grid-template-columns: 1fr;
     gap: 15px;
     max-width: 100%;
-  }
-
-  .rsvp-image {
-    left: 40px;
   }
 
   .form-group label {
@@ -606,9 +602,6 @@ body {
   }
   .rsvp-image {
     max-width: 250px;
-  }
-    .rsvp-image {
-    left: 40px;
   }
 }
 /* GIFT GUIDE STYLES */

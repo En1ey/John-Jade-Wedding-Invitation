@@ -280,8 +280,8 @@ export default function Home() {
                   src="/assests/img/logo.png"
                   alt="John & Jade Logo"
                   className="logo"
-                  width={110}
-                  height={110}
+                  width={100}
+                  height={100}
                 />
               </a>
               </li>
