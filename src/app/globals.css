@@ -1,4 +1,10 @@
 @import "tailwindcss";
+@font-face {
+  font-family: "Great Vibes";
+  src: url("/fonts/GreatVibes-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
 
 :root {
   --background: #ffffff;
@@ -69,6 +75,7 @@ body {
 }
 
 .header li {
+  font: 1em sans-serif;
   display: flex;
   align-items: center;
 }
@@ -107,7 +114,7 @@ body {
   text-align: center;
   color: var(--text-white);
   padding: 20px;
-  height: 200px;
+  height: 320px;
   background-color: #90a4bb84;
   border-radius: 20px;
 }
@@ -115,16 +122,29 @@ body {
 .content h1 {
   font: 3em Caveat Brushf;
   margin: 0;
+  bottom: 10px;
 }
 
 .content h2 {
-  font: 1.5em Caveat Brushf;
+  font: 2em Caveat Brushf;
   margin: 10px 0 0 0;
 }
 
 .content h3 {
-  font: 1em Caveat Brushf;
+  font: 1.5em Caveat Brushf;
   margin: 20px;
+}
+
+.content p{
+  font-size: 2em;
+  font-family: "Great Vibes", cursive;
+  font-style: italic;
+}
+
+.content h4 {
+  font-size: 1.2em;
+  font-family:  Caveat Brushf;
+  font-style: italic;
 }
 
 .bottom-img {
@@ -150,10 +170,19 @@ body {
 }
 
 .venue-container h1 {
-  font: 3em Caveat Brushf;
+  font: 2.5em Caveat Brushf;
   color: var(--text-white);
-  text-decoration: underline;
-  text-decoration-color: #7f9759d7;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.venue-container h2 {
+  font: 2em Caveat Brushf;
+}
+
+.venue-container span {
+  font: 1.5em Caveate Brushf;
+  color: var(--text-white);
   text-align: center;
   margin-bottom: 60px;
 }
@@ -190,7 +219,7 @@ body {
   height: 250px;
   object-fit: cover;
   border-radius: 15px;
-  background-color: #7f97597d;
+  background-color: none;
   padding: 5px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
@@ -215,14 +244,13 @@ body {
 }
 
 .venue-address {
-  font-size: 1.1em;
-  margin-bottom: 8px;
+  font: 1.2em Caveat Brushf;
+  margin-bottom: 30px;
   line-height: 1.5;
 }
 
 .venue-datetime {
-  font-size: 1.2em;
-  font-weight: bold;
+  font: 1.1em Caveat Brushf;
   margin-bottom: 20px;
   color: #7f9759;
 }
@@ -236,6 +264,7 @@ body {
   border-radius: 25px;
   font-weight: bold;
   font-size: 14px;
+  font-family: "Caveat Brushf";
   transition: all 0.3s ease;
   box-shadow: 0 4px 15px rgba(127, 151, 89, 0.3);
 }
@@ -257,12 +286,12 @@ body {
   text-align: center;
   margin-bottom: 10px;
   color: white;
-  text-decoration: underline;
-  text-decoration-color: #7f9759d7;
 }
 
 .two-column-section .container4 h2 {
+  font-family: "Caveat Brushf";
   font-size: 1.5em;
+  font-style: italic;
   text-align: center;
   line-height: 1.5;
   color: white;
@@ -270,6 +299,7 @@ body {
 }
 
 .two-column-section .container4 h3 {
+  font-family: "Caveat Brushf";
   font-size: 1em;
   text-align: right;
   line-height: 1.5;
@@ -285,13 +315,290 @@ body {
   border-radius: 20px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }
+/* RSVP SECTION STYLES */
+.container5 {
+  background: var(--primary-blue);
+  background-size: cover;
+  background-position: center;
+  padding: 80px 20px 60px 20px;
+  min-height: 400px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  margin: 50px;
+  flex-direction: column;
+}
 
+.container5 h1 {
+  font: 3em Caveat Brushf;
+  font-size: 3em;
+  margin-bottom: 10px;
+  color: var(--text-white);
+  text-align: center;
+}
+
+.container5 h2 {
+  font-family: "Caveat Brushf";
+  font-size: 1.5em;
+  font-weight: normal;
+  margin-bottom: 40px;
+  color: var(--text-white);
+  padding: 0 70px;
+}
+
+.rsvp-form-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+.rsvp-form {
+  background-color: #ffffff7f;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.form-group {
+  margin-bottom: 25px;
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-family: "Caveat Brushf";
+  font-size: 1.2em;
+  color: var(--text-dark);
+  font-weight: bold;
+}
+
+.form-input,
+.form-textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid var(--primary-green);
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: "Caveat Brushf";
+  outline: none;
+  background-color: white;
+  box-sizing: border-box;
+}
+
+.form-input:disabled,
+.form-textarea:disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+  border-color: var(--accent-gold);
+  box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.1);
+}
+
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.radio-option {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 8px 0;
+}
+
+.radio-option input[type="radio"] {
+  margin-right: 10px;
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.radio-option span {
+  font-family: "Caveat Brushf";
+  font-size: 1.1em;
+  color: var(--text-dark);
+}
+
+.rsvp-submit-btn {
+  width: 100%;
+  padding: 15px 20px;
+  background-color: var(--primary-green);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-family: "Caveat Brushf";
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+}
+
+.rsvp-submit-btn:hover:not(:disabled) {
+  background-color: var(--accent-gold);
+}
+
+.rsvp-submit-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.rsvp-error {
+  color: #ff6b6b;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 12px;
+  border-radius: 8px;
+  margin: 15px 0;
+  font-size: 0.9em;
+  text-align: center;
+  border: 1px solid #ff6b6b;
+}
+
+.rsvp-success {
+  color: #28a745;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 12px;
+  border-radius: 8px;
+  margin: 15px 0;
+  font-size: 0.9em;
+  font-family: "Caveat Brushf";
+  text-align: center;
+  border: 1px solid #28a745;
+}
+
+.rsvp-stats {
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 30px;
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  color: var(--text-white);
+}
+
+.rsvp-stats h3 {
+  font-family: "Caveat Brushf";
+  font-size: 1.8em;
+  margin-bottom: 20px;
+  text-align: center;
+  color: var(--text-white);
+}
+
+.rsvp-stats h4 {
+  font-family: "Caveat Brushf";
+  font-size: 1.4em;
+  margin-bottom: 15px;
+  margin-top: 30px;
+  color: var(--text-white);
+}
+
+/* RESPONSIVE STYLES FOR RSVP */
+@media (max-width: 768px) {
+  .container5 {
+    margin: 20px;
+    padding: 60px 15px 40px 15px;
+  }
+
+  .container5 h1 {
+    font-size: 2.5em;
+    margin-bottom: 15px;
+  }
+
+  .container5 h2 {
+    font-size: 1.2em;
+    padding: 0 20px;
+    margin-bottom: 30px;
+  }
+
+  .rsvp-form-container {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    max-width: 100%;
+  }
+
+  .rsvp-form {
+    padding: 20px;
+  }
+
+  .form-group label {
+    font-size: 1.1em;
+  }
+
+  .confirmation-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+    padding: 15px 0;
+  }
+
+  .confirmation-status {
+    align-self: flex-end;
+  }
+}
+
+@media (max-width: 480px) {
+  .container5 {
+    margin: 10px;
+    padding: 40px 10px 30px 10px;
+  }
+
+  .container5 h1 {
+    font-size: 2em;
+  }
+
+  .container5 h2 {
+    font-size: 1em;
+    padding: 0 10px;
+  }
+
+  .rsvp-form {
+    padding: 15px;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .radio-group {
+    gap: 8px;
+  }
+
+  .radio-option {
+    padding: 6px 0;
+  }
+
+  .radio-option span {
+    font-size: 1em;
+  }
+
+  .rsvp-submit-btn {
+    padding: 12px 16px;
+    font-size: 1rem;
+  }
+
+  .rsvp-image-section {
+    padding: 15px;
+  }
+
+  .confirmation-stats {
+    margin-bottom: 15px;
+  }
+
+  .rsvp-image {
+    max-width: 250px;
+  }
+}
 /* GIFT GUIDE STYLES */
 .container6 {
   background: var(--primary-blue);
   background-size: cover;
   background-position: center;
-  padding: 120px 20px 40px 20px;
+  padding: 40px 20px 40px 20px;
   min-height: 400px;
   display: flex;
   justify-content: center;
@@ -305,12 +612,13 @@ body {
   font-size: 3em;
   margin-bottom: 10px;
   color: var(--text-white);
-  text-decoration: underline var(--primary-green);
   text-align: center;
 }
 
 .container6 h2 {
+  font-family: "Caveat Brushf";
   font-size: 1.5em;
+  font-style: italic;
   font-weight: normal;
   margin-bottom: 20px;
   color: var(--text-white);
@@ -342,6 +650,7 @@ body {
   border-radius: 8px;
   border: 1px solid #7f9759d7;
   font-size: 1rem;
+  font-family: "Caveat Brushf";
   background-color: #ffffff7f;
   transition: all 0.3s ease;
 }
@@ -372,7 +681,7 @@ body {
   border-radius: 6px;
   cursor: pointer;
   font-size: 0.9rem;
-  font-weight: bold;
+  font-family: "Caveat Brushf";
   min-width: 100px;
   transition: background-color 0.2s ease;
 }
@@ -401,6 +710,7 @@ body {
   color: var(--text-dark);
   margin-bottom: 15px;
   font-size: 1.3em;
+  font-family: "Caveat Brushf";
   text-align: center;
 }
 
@@ -416,6 +726,7 @@ body {
   border: 2px solid var(--primary-green);
   border-radius: 8px;
   font-size: 1rem;
+  font-family: "Caveat Brushf";
   outline: none;
   background-color: white;
 }
@@ -432,6 +743,7 @@ body {
   border-radius: 8px;
   cursor: pointer;
   font-size: 1rem;
+  font-family: "Caveat Brushf";
   font-weight: bold;
   min-width: 100px;
   transition: background-color 0.2s ease;
@@ -454,6 +766,7 @@ body {
 .gift-stats {
   color: white;
   font-size: 1.1em;
+  font-family: "Caveat Brushf";
   margin-bottom: 20px;
   text-align: center;
 }
@@ -462,6 +775,7 @@ body {
 .gift-loading {
   color: white;
   font-size: 1.2em;
+  font-family: "Caveat Brushf";
   padding: 20px;
   text-align: center;
 }
@@ -476,15 +790,20 @@ body {
   text-align: center;
 }
 
+.custom-gift-section p{
+  font-family: "Caveat Brushf";
+}
+
 .gift-empty {
   color: white;
   font-size: 1.2em;
+  font-family: "Caveat Brushf";
   padding: 20px;
   background-color: rgba(255, 255, 255, 0.1);
   border-radius: 8px;
   margin: 20px;
   text-align: center;
-}s
+}
 
 /* REMINDERS SECTION STYLES */
 .container7 {
@@ -502,12 +821,12 @@ body {
   font-size: 3em;
   margin-bottom: 20px;
   color: var(--text-white);
-  text-decoration: underline var(--primary-green);
   text-align: center;
 }
 
 .reminder-list {
   font-size: 1.5em;
+  font-family: "Caveat Brushf";
   text-align: center;
   padding-left: 20px;
   line-height: 1.6;
@@ -675,13 +994,13 @@ body {
     font-size: 0.8em;
     padding: 10px;
     position: relative;
-    top: 138px;
+    top: 120px;
     width: 90%;
   }
   
   .bottom-img {
     width: 300px;
-    top: 165px;
+    top: 245px;
     left: 50%;
     transform: translateX(-50%);
   }

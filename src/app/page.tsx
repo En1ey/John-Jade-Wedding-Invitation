@@ -13,6 +13,15 @@ interface Gift {
   created_at?: string;
 }
 
+// Define type for confirmations
+interface Confirmation {
+  id: number;
+  name: string;
+  attendance: 'attending' | 'not_attending' | 'maybe';
+  message?: string;
+  created_at?: string;
+}
+
 export default function Home() {
   const [gifts, setGifts] = useState<Gift[]>([]);
   const [loading, setLoading] = useState(true);
@@ -20,24 +29,50 @@ export default function Home() {
   const [customGift, setCustomGift] = useState("");
   const [isAddingGift, setIsAddingGift] = useState(false);
 
+  // RSVP states
+  const [confirmations, setConfirmations] = useState<Confirmation[]>([]);
+  const [rsvpForm, setRsvpForm] = useState({
+    name: '',
+    attendance: '' as 'attending' | 'not_attending' | 'maybe' | '',
+    message: ''
+  });
+  const [isSubmittingRsvp, setIsSubmittingRsvp] = useState(false);
+  const [rsvpError, setRsvpError] = useState<string | null>(null);
+  const [rsvpSuccess, setRsvpSuccess] = useState<string | null>(null);
+
   useEffect(() => {
     fetchGifts();
+    fetchConfirmations();
 
-    // Set up real-time subscription
-    const subscription = supabase
+    // Set up real-time subscription for gifts
+    const giftsSubscription = supabase
       .channel("gifts-changes")
       .on(
         "postgres_changes",
         { event: "*", schema: "public", table: "gifts" },
         () => {
-          console.log("Real-time update received");
+          console.log("Real-time gift update received");
           fetchGifts();
         }
       )
       .subscribe();
 
+    // Set up real-time subscription for confirmations
+    const confirmationsSubscription = supabase
+      .channel("confirmations-changes")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "confirmations" },
+        () => {
+          console.log("Real-time confirmation update received");
+          fetchConfirmations();
+        }
+      )
+      .subscribe();
+
     return () => {
-      supabase.removeChannel(subscription);
+      supabase.removeChannel(giftsSubscription);
+      supabase.removeChannel(confirmationsSubscription);
     };
   }, []);
 
@@ -68,6 +103,27 @@ export default function Home() {
       setError(err instanceof Error ? err.message : "Failed to load gifts");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchConfirmations = async () => {
+    try {
+      console.log("Fetching confirmations from Supabase...");
+
+      const { data, error } = await supabase
+        .from("confirmations")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        console.error("Error fetching confirmations:", error);
+        return;
+      }
+
+      console.log("Successfully fetched confirmations:", data);
+      setConfirmations(data || []);
+    } catch (err) {
+      console.error("Error fetching confirmations:", err);
     }
   };
 
@@ -149,9 +205,64 @@ export default function Home() {
     }
   };
 
+  const submitRsvp = async () => {
+    if (!rsvpForm.name.trim()) {
+      setRsvpError("Please enter your name");
+      return;
+    }
+
+    if (!rsvpForm.attendance) {
+      setRsvpError("Please select your attendance status");
+      return;
+    }
+
+    try {
+      setIsSubmittingRsvp(true);
+      setRsvpError(null);
+      setRsvpSuccess(null);
+
+      console.log("Submitting RSVP:", rsvpForm);
+
+      const { data, error } = await supabase
+        .from("confirmations")
+        .insert([{
+          name: rsvpForm.name.trim(),
+          attendance: rsvpForm.attendance,
+          message: rsvpForm.message.trim() || null
+        }])
+        .select()
+        .single();
+
+      if (error) {
+        console.error("Error submitting RSVP:", error);
+        if (error.message.includes('unique')) {
+          setRsvpError("You have already confirmed your attendance. Thank you!");
+        } else {
+          setRsvpError(`Failed to submit RSVP: ${error.message}`);
+        }
+      } else {
+        console.log("RSVP submitted successfully:", data);
+        setRsvpForm({ name: '', attendance: '', message: '' });
+        setRsvpSuccess("Thank you for your confirmation! We appreciate your response.");
+      }
+    } catch (err) {
+      console.error("Error in submitRsvp:", err);
+      setRsvpError("Failed to submit RSVP. Please try again.");
+    } finally {
+      setIsSubmittingRsvp(false);
+    }
+  };
+
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       addCustomGift();
+    }
+  };
+
+  const handleRsvpKeyDown = (e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      submitRsvp();
     }
   };
 
@@ -174,14 +285,19 @@ export default function Home() {
                 />
               </a>
             </li>
+            <li><a href="#rsvp">RSVP</a></li>
             <li><a href="#giftguide">GIFT GUIDE</a></li>
             <li><a href="#reminders">REMINDERS</a></li>
           </ul>
         </header>
         <div className="content" id="home">
-          <h1>WE&apos;RE GETTING MARRIED</h1>
-          <h2>October 25, 2025 | Opol, Cagayan de Oro City</h2>
-          <h3>John & Jade</h3>
+          <h1>WE&apos;RE GETTING MARRIED!</h1>
+          <span></span>
+          <h3>October 25, 2025 | Opol, Misamis Oriental</h3>
+          <h2>John Vincent</h2>
+          <p>and</p>
+          <h2>Earla Jade Naiza</h2>
+          <h4>cordially invite you to celebrate life and love</h4>
           <Image
             src="/assests/img/6.png"
             alt="Bottom-img"
@@ -195,11 +311,11 @@ export default function Home() {
       {/* VENUE & SCHEDULE */}
       <div className="venue-wrapper">
         <div className="venue-container" id="venueandschedule">
-          <h1>Venue & Schedule</h1>
           <div className="venue-grid">
             {/* Church Ceremony */}
             <div className="venue-card">
               <div className="venue-image">
+                <h1>WEDDING CEREMONY</h1>
                 <Image
                   src="/assests/img/church.png"
                   alt="Church Venue"
@@ -209,10 +325,9 @@ export default function Home() {
                 />
               </div>
               <div className="venue-details">
-                <h2>Church Ceremony</h2>
-                <div className="venue-name">Our Lady of Consolacion Parish Church</div>
-                <div className="venue-address">Salva Street Corner, Opol, Misamis Oriental</div>
-                <div className="venue-datetime">October 25, 2025 | 1:30 PM</div>
+                <div className="venue-name">Our Lady of Consolacion Parish</div>
+                <div className="venue-address">Corner Valacares & Salva Sts., Opol, Misamis Oriental</div>
+                <div className="venue-datetime">October 25, 2025 | 9:30 AM</div>
                 <a
                   href="https://maps.google.com"
                   target="_blank"
@@ -226,6 +341,7 @@ export default function Home() {
             {/* Reception */}
             <div className="venue-card">
               <div className="venue-image">
+                <h1>RECEPTION</h1>
                 <Image
                   src="/assests/img/chitos.png"
                   alt="Reception Venue"
@@ -235,10 +351,9 @@ export default function Home() {
                 />
               </div>
               <div className="venue-details">
-                <h2>Reception</h2>
-                <div className="venue-name">Chito&apos;s Kitchen</div>
-                <div className="venue-address">Opol, Misamis Oriental</div>
-                <div className="venue-datetime">October 25, 2025 | 3:00 PM</div>
+                <div className="venue-name">Chito&apos;s Tuna House</div>
+                <div className="venue-address">Natnl Highway, Taboc, Opol, Misamis Oriental</div>
+                <div className="venue-datetime">After the Ceremony</div>
                 <a
                   href="https://maps.app.goo.gl/1ZNqpUcFXgPdNSoEA"
                   target="_blank"
@@ -257,8 +372,7 @@ export default function Home() {
         <div className="container4">
           <h1>Theme</h1>
           <h2>
-            Dress Code: <br />
-            Celebrate with us in your best look and match with the color hues below
+            Celebrate with us in the glow of blue and yellow.
           </h2>
           <Image
             src="/assests/img/palette.png"
@@ -270,13 +384,104 @@ export default function Home() {
         </div>
       </div>
 
+      {/* RSVP SECTION */}
+      <div className="container5" id="rsvp">
+        <h1>RSVP & WEDDING TIMELINE</h1>
+        <h2>
+          Please confirm your attendance by filling out the form below.
+          Your response helps us plan the perfect celebration!
+        </h2>
+
+        <div className="rsvp-form-container">
+          <div className="rsvp-form">
+            <div className="form-group">
+              <label htmlFor="name">Your Name *</label>
+              <input
+                id="name"
+                type="text"
+                value={rsvpForm.name}
+                onChange={(e) => setRsvpForm({ ...rsvpForm, name: e.target.value })}
+                onKeyDown={handleRsvpKeyDown}
+                placeholder="Enter your full name"
+                disabled={isSubmittingRsvp}
+                className="form-input"
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Will you be attending? *</label>
+              <div className="radio-group">
+                <label className="radio-option">
+                  <input
+                    type="radio"
+                    name="attendance"
+                    value="attending"
+                    checked={rsvpForm.attendance === 'attending'}
+                    onChange={(e) => setRsvpForm({ ...rsvpForm, attendance: e.target.value as 'attending' })}
+                    disabled={isSubmittingRsvp}
+                  />
+                  <span>Yes, I'll be there!</span>
+                </label>
+                <label className="radio-option">
+                  <input
+                    type="radio"
+                    name="attendance"
+                    value="not_attending"
+                    checked={rsvpForm.attendance === 'not_attending'}
+                    onChange={(e) => setRsvpForm({ ...rsvpForm, attendance: e.target.value as 'not_attending' })}
+                    disabled={isSubmittingRsvp}
+                  />
+                  <span>Sorry, can't make it</span>
+                </label>
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="message">Message (Optional)</label>
+              <textarea
+                id="message"
+                value={rsvpForm.message}
+                onChange={(e) => setRsvpForm({ ...rsvpForm, message: e.target.value })}
+                onKeyDown={handleRsvpKeyDown}
+                placeholder="Leave a message for the couple..."
+                disabled={isSubmittingRsvp}
+                className="form-textarea"
+                rows={3}
+              />
+            </div>
+
+            {rsvpError && <div className="rsvp-error">{rsvpError}</div>}
+            {rsvpSuccess && <div className="rsvp-success">{rsvpSuccess}</div>}
+
+            <button
+              onClick={submitRsvp}
+              disabled={isSubmittingRsvp || !rsvpForm.name.trim() || !rsvpForm.attendance}
+              className="rsvp-submit-btn"
+            >
+              {isSubmittingRsvp ? "Submitting..." : "Submit RSVP"}
+            </button>
+          </div>
+
+          <div className="rsvp-image-section">       
+            <div className="rsvp-image-container">
+              <Image
+                src="/assests/img/chitos.png"
+                alt="John & Jade"
+                className="rsvp-image"
+                width={400}
+                height={500}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* GIFT GUIDE */}
       <div className="container6" id="giftguide">
         <h1>Gift Guide</h1>
         <h2>
           Your presence is already the greatest gift. <br />
-          But if you wish to bless us more, we would truly appreciate a gift of cash or any
-          little help for our new beginning. Below are gift ideas.
+          But if you wish to bless us more, we would <br />truly appreciate a gift of cash or any little <br />help for our new beginning.
         </h2>
 
         <div className="gift-columns">
@@ -343,10 +548,12 @@ export default function Home() {
       <div className="container7" id="reminders">
         <h1>Reminders</h1>
         <ul className="reminder-list">
-          <li>Please confirm your attendance two weeks before the wedding.</li>
-          <li>Dress code: Formal attire in neutral tones.</li>
-          <li>Reception starts immediately after the ceremony.</li>
-          <li>No boxed gifts please, we prefer practical items listed above.</li>
+          <li>• Please arrive at least 30 minutes early,  the ceremony is most important to us.</li>
+          <li>• Our reception has limited seating<br/>◦ Kindly honor the number of invites; or 
+          <br/>◦ Let us know if you&apos;re unable to come thru this website (preferably on or before October 13, 2025)
+          </li>
+          <li>• After the Mass, please stay and join us for photos.</li>
+          <li>• Enjoy and take part in the reception program. </li>
         </ul>
       </div>
     </>
