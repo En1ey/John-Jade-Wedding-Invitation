@@ -381,7 +381,7 @@ export default function Home() {
 
       {/* RSVP SECTION */}
       <div className="container5" id="rsvp">
-        <h1>RSVP & WEDDING TIMELINE</h1>
+        <h1>RSVP & EVENTS ORDER</h1>
         <h2>
           Please confirm your attendance by filling out the form below.
           Your response helps us plan the perfect celebration!
