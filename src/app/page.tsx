@@ -29,6 +29,9 @@ export default function Home() {
   const [error, setError] = useState<string | null>(null);
   const [customGift, setCustomGift] = useState("");
   const [isAddingGift, setIsAddingGift] = useState(false);
+  
+  // Sidebar state
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   // RSVP states
   const [confirmations, setConfirmations] = useState<Confirmation[]>([]);
@@ -76,6 +79,22 @@ export default function Home() {
       supabase.removeChannel(confirmationsSubscription);
     };
   }, []);
+
+  // Handle sidebar body scroll prevention - FIXED
+  useEffect(() => {
+    const body = document.body;
+    if (isSidebarOpen) {
+      // Add class to body instead of directly manipulating style
+      body.classList.add('sidebar-open');
+    } else {
+      body.classList.remove('sidebar-open');
+    }
+
+    // Cleanup function to restore scroll when component unmounts
+    return () => {
+      body.classList.remove('sidebar-open');
+    };
+  }, [isSidebarOpen]);
 
   const fetchGifts = async () => {
     try {
@@ -267,12 +286,33 @@ export default function Home() {
     }
   };
 
+  const toggleSidebar = () => {
+    console.log("Toggle sidebar clicked, current state:", isSidebarOpen); // Debug log
+    setIsSidebarOpen(prev => {
+      console.log("Setting sidebar to:", !prev); // Debug log
+      return !prev;
+    });
+  };
+
+  const handleNavClick = (href: string) => {
+    console.log("Nav click:", href); // Debug log
+    setIsSidebarOpen(false);
+    // Smooth scroll to section with a small delay to ensure sidebar closes first
+    setTimeout(() => {
+      const element = document.querySelector(href);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 100);
+  };
+
   return (
     <SplashScreen>
     <>
       {/* HOME SECTION */}
       <div className="container1" id="home">
-        <header className="header">
+        {/* Desktop Header */}
+        <header className="header desktop-header">
           <ul>
             <li><a href="#venueandschedule">VENUE</a></li>
             <li><a href="#theme">THEME</a></li>
@@ -287,12 +327,63 @@ export default function Home() {
                   height={100}
                 />
               </a>
-              </li>
+            </li>
             <li><a href="#eventorder">EVENT ORDERS</a></li>
             <li><a href="#giftguide">GIFT GUIDE</a></li>
             <li><a href="#reminders">REMINDERS</a></li>
           </ul>
         </header>
+
+        {/* Mobile Header */}
+        <header className="mobile-header">
+          <div className="mobile-header-content">
+            <button 
+              className="menu-toggle"
+              onClick={toggleSidebar}
+              aria-label="Toggle menu"
+              type="button"
+            >
+              <Image
+                src="/assests/img/logo.png"
+                alt="John & Jade Logo"
+                className="logo"
+                width={40}
+                height={40}
+              />
+            </button>
+          </div>
+        </header>
+
+        {/* Mobile Sidebar - FIXED positioning */}
+        <div className={`sidebar ${isSidebarOpen ? 'sidebar-open' : ''}`}>
+          <div className="sidebar-content">
+            <button 
+              className="sidebar-close"
+              onClick={toggleSidebar}
+              aria-label="Close menu"
+              type="button"
+            >
+              ×
+            </button>
+            <nav className="sidebar-nav">
+              <button onClick={() => handleNavClick('#venueandschedule')}>VENUE</button>
+              <button onClick={() => handleNavClick('#theme')}>THEME</button>
+              <button onClick={() => handleNavClick('#rsvp')}>RSVP</button>
+              <button onClick={() => handleNavClick('#eventorder')}>EVENT ORDERS</button>
+              <button onClick={() => handleNavClick('#giftguide')}>GIFT GUIDE</button>
+              <button onClick={() => handleNavClick('#reminders')}>REMINDERS</button>
+            </nav>
+          </div>
+        </div>
+
+        {/* Sidebar Overlay */}
+        {isSidebarOpen && (
+          <div 
+            className="sidebar-overlay"
+            onClick={toggleSidebar}
+          />
+        )}
+
         <div className="content pb-32" id="home">
           <h1>WE&apos;RE GETTING MARRIED!</h1>
           <h3>October 25, 2025 | Opol, Misamis Oriental</h3>
@@ -302,7 +393,7 @@ export default function Home() {
       {/* VENUE & SCHEDULE */}
       <div className="venue-wrapper">
         <div className="venue-container" id="venueandschedule">
-          <span>  <br/></span>
+          <span><br/></span>
           <h2>John Vincent</h2>
           <p>and</p>
           <h2>Earla Jade Naiza</h2>
@@ -459,7 +550,7 @@ export default function Home() {
           </div>
         </div>
           <div className="rsvp-image-section" id="eventorder">   
-            <h1>EVENTS ORDER</h1> 
+            <h1>Events Order</h1> 
             <div className="rsvp-image-container">
               <Image
                 src="/assests/img/chitos.png"
@@ -555,4 +646,4 @@ export default function Home() {
     </>
     </SplashScreen>
   );
-}
+} 
