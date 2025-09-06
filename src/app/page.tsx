@@ -384,7 +384,7 @@ export default function Home() {
       <div className="container5" id="rsvp">
         <h1>RSVP</h1>
         <h2>
-          Please confirm your attendance by filling out the form below.
+          Please confirm your attendance by filling out the form below.<br/>
           Your response helps us plan the perfect celebration!
         </h2>
 
