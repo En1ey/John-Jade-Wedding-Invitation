@@ -296,21 +296,16 @@ export default function Home() {
           <h1>WE&apos;RE GETTING MARRIED!</h1>
           <span></span>
           <h3>October 25, 2025 | Opol, Misamis Oriental</h3>
+        </div>
+      </div>  
+
+      {/* VENUE & SCHEDULE */}
+      <div className="venue-wrapper">
+        <div className="venue-container" id="venueandschedule">
           <h2>John Vincent</h2>
           <p>and</p>
           <h2>Earla Jade Naiza</h2>
           <h4>cordially invite you to celebrate life and love</h4>
-        </div>
-      </div>  
-
-      <div className="venue-wrapper mt-1">
-        <hr className="w-full border-t-10 border-white border-b-10 border-double -mt-10" />
-      </div>
-
-      {/* VENUE & SCHEDULE */}
-      <div className="venue-wrapper">
-        <span>Event Order</span>
-        <div className="venue-container" id="venueandschedule">
           <div className="venue-grid">
             {/* Church Ceremony */}
             <div className="venue-card">

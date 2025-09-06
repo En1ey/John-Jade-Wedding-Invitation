@@ -114,25 +114,24 @@ body {
   text-align: center;
   color: var(--text-white);
   padding: 20px;
-  height: 320px;
+  height: 200px;
   background-color: #90a4bb84;
   border-radius: 20px;
 }
 
 .content h1 {
   font: 3em Caveat Brushf;
-  margin: 0;
-  bottom: 10px;
+  padding-top: 30px;
 }
 
 .content h2 {
   font: 2em Caveat Brushf;
-  margin: 10px 0 0 0;
+  margin: 0px 0 0 0;
 }
 
 .content h3 {
   font: 1.5em Caveat Brushf;
-  margin: 20px;
+  margin: 0px;
 }
 
 .content p{
@@ -160,13 +159,13 @@ body {
 /* VENUE & SCHEDULE STYLES */
 .venue-wrapper {
   background-color: var(--primary-blue);
-  padding: 60px 0;
+  padding: 0px 0;
 }
 
 .venue-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0px;
 }
 
 .venue-wrapper span {
@@ -180,19 +179,37 @@ body {
 }
 
 .venue-container h1 {
-  font: 2.5em Caveat Brushf;
+  font: 2em Caveat Brushf;
   color: var(--text-white);
   text-align: center;
   position: relative;
-  margin-bottom: 30px;
+  padding-bottom: 5px;
 }
 
 .venue-wrapper {
   border: none;
 }
-
 .venue-container h2 {
-  font: 2em Caveat Brushf;
+  font: 3.5em Caveat Brushf;
+  color: var(--text-white);
+  text-align: center;
+  padding-top: 10px;
+  position: relative;
+}
+
+.venue-container p {
+  font: 2.5em Great Vibes;
+  color: var(--text-white);
+  text-align: center;
+  position: relative;
+}
+
+.venue-container h4 {
+  font: 1.5em Great Vibes;
+  color: var(--text-white);
+  text-align: center;
+  position: relative;
+  margin-bottom: 30px;
 }
 
 .venue-container span {
@@ -260,13 +277,12 @@ body {
 
 .venue-address {
   font: 1.2em Caveat Brushf;
-  margin-bottom: 30px;
   line-height: 1.5;
 }
 
 .venue-datetime {
   font: 1.1em Caveat Brushf;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   color: #7f9759;
 }
 
@@ -325,7 +341,7 @@ body {
   width: 600px;
   height: auto;
   margin: 0 auto;
-  align-items: right;
+  align-items: center;
   background-color: white;
   border-radius: 20px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.3);
@@ -335,18 +351,16 @@ body {
   background: var(--primary-blue);
   background-size: cover;
   background-position: center;
-  padding: 80px 20px 60px 20px;
+  padding: 10px 10px 10px 10px;
   min-height: 400px;
   display: flex;
   justify-content: center;
   text-align: center;
-  margin: 50px;
   flex-direction: column;
 }
 
 .container5 h1 {
-  font: 3em Caveat Brushf;
-  font-size: 3em;
+  font: 2em Caveat Brushf;
   margin-bottom: 10px;
   color: var(--text-white);
   text-align: center;
@@ -366,13 +380,13 @@ body {
   margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 40px;
+  gap: 20px;
   align-items: start;
 }
 
 .rsvp-form {
   background-color: #ffffff7f;
-  padding: 30px;
+  padding: 20px;
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
@@ -384,7 +398,7 @@ body {
 
 .form-group label {
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: 5px;
   font-family: "Caveat Brushf";
   font-size: 1.2em;
   color: var(--text-dark);
@@ -394,10 +408,10 @@ body {
 .form-input,
 .form-textarea {
   width: 100%;
-  padding: 12px 16px;
+  padding: 6px 8px;
   border: 2px solid var(--primary-green);
   border-radius: 8px;
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-family: "Caveat Brushf";
   outline: none;
   background-color: white;
@@ -419,7 +433,7 @@ body {
 .radio-group {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 4px;
 }
 
 .radio-option {
@@ -438,7 +452,7 @@ body {
 
 .radio-option span {
   font-family: "Caveat Brushf";
-  font-size: 1.1em;
+  font-size: 0.9em;
   color: var(--text-dark);
 }
 
@@ -450,7 +464,7 @@ body {
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-family: "Caveat Brushf";
   font-weight: bold;
   transition: background-color 0.2s ease;
@@ -479,76 +493,48 @@ body {
 .rsvp-success {
   color: #28a745;
   background-color: rgba(255, 255, 255, 0.9);
-  padding: 12px;
+  padding: 8px;
   border-radius: 8px;
-  margin: 15px 0;
-  font-size: 0.9em;
+  margin: 10px 0;
+  font-size: 0.8em;
   font-family: "Caveat Brushf";
   text-align: center;
   border: 1px solid #28a745;
-}
-
-.rsvp-stats {
-  background-color: rgba(255, 255, 255, 0.1);
-  padding: 30px;
-  border-radius: 12px;
-  backdrop-filter: blur(10px);
-  color: var(--text-white);
-}
-
-.rsvp-stats h3 {
-  font-family: "Caveat Brushf";
-  font-size: 1.8em;
-  margin-bottom: 20px;
-  text-align: center;
-  color: var(--text-white);
-}
-
-.rsvp-stats h4 {
-  font-family: "Caveat Brushf";
-  font-size: 1.4em;
-  margin-bottom: 15px;
-  margin-top: 30px;
-  color: var(--text-white);
 }
 
 /* RESPONSIVE STYLES FOR RSVP */
 @media (max-width: 768px) {
   .container5 {
     margin: 20px;
-    padding: 60px 15px 40px 15px;
+    padding: 10px 15px 40px 15px;
   }
 
   .container5 h1 {
-    font-size: 2.5em;
+    font-size: 2em;
     margin-bottom: 15px;
   }
 
   .container5 h2 {
-    font-size: 1.2em;
-    padding: 0 20px;
+    font-size: 1em;
+    padding: 0 10px;
     margin-bottom: 30px;
   }
 
   .rsvp-form-container {
     grid-template-columns: 1fr;
-    gap: 30px;
+    gap: 15px;
     max-width: 100%;
   }
 
-  .rsvp-form {
-    padding: 20px;
-  }
-
   .form-group label {
-    font-size: 1.1em;
+    font-size: 1em;
   }
 
   .confirmation-item {
     flex-direction: column;
     align-items: flex-start;
-    gap: 5px;
-    padding: 15px 0;
+    gap: 3px;
+    padding: 10px 0;
   }
 
   .confirmation-status {
@@ -558,8 +544,8 @@ body {
 
 @media (max-width: 480px) {
   .container5 {
-    margin: 10px;
-    padding: 40px 10px 30px 10px;
+    margin: 5px;
+    padding: 10px 10px 10px 10px;
   }
 
   .container5 h1 {
@@ -567,43 +553,38 @@ body {
   }
 
   .container5 h2 {
-    font-size: 1em;
-    padding: 0 10px;
+    font-size: 0.9em;
   }
 
   .rsvp-form {
-    padding: 15px;
+    padding: 10px;
   }
 
   .form-group {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
   }
 
   .radio-group {
-    gap: 8px;
+    gap: 4px;
   }
 
   .radio-option {
-    padding: 6px 0;
+    padding: 3px 0;
   }
 
   .radio-option span {
-    font-size: 1em;
+    font-size: 0.9em;
   }
 
   .rsvp-submit-btn {
-    padding: 12px 16px;
+    padding: 8px 14px;
     font-size: 1rem;
   }
 
   .rsvp-image-section {
-    padding: 15px;
+    padding: 10px;
+    align-items: center;
   }
-
-  .confirmation-stats {
-    margin-bottom: 15px;
-  }
-
   .rsvp-image {
     max-width: 250px;
   }
@@ -613,19 +594,18 @@ body {
   background: var(--primary-blue);
   background-size: cover;
   background-position: center;
-  padding: 40px 20px 40px 20px;
-  min-height: 400px;
+  padding: 10px 10px 10px 10px;
+  min-height: 100px;
   display: flex;
   justify-content: center;
   text-align: center;
-  margin: 50px;
+  margin: 25px;
   flex-direction: column;
 }
 
 .container6 h1 {
-  font: 3em Caveat Brushf;
+  font: 2em Caveat Brushf;
   font-size: 3em;
-  margin-bottom: 10px;
   color: var(--text-white);
   text-align: center;
 }
@@ -635,9 +615,7 @@ body {
   font-size: 1.5em;
   font-style: italic;
   font-weight: normal;
-  margin-bottom: 20px;
   color: var(--text-white);
-  padding: 20px 70px;
 }
 
 .gift-columns {
@@ -713,12 +691,12 @@ body {
 /* CUSTOM GIFT INPUT STYLES */
 .custom-gift-section {
   margin-bottom: 30px;
-  padding: 20px;
+  padding: 10px;
   background-color: #ffffff7f;
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.1);
   max-width: 600px;
-  margin: 0 auto 30px auto;
+  margin: 0 auto 10px auto;
 }
 
 .custom-gift-title {
@@ -823,8 +801,8 @@ body {
 /* REMINDERS SECTION STYLES */
 .container7 {
   max-width: 900px;
-  margin: 40px auto;
-  padding: 20px;
+  margin: 10px auto;
+  padding: 5px;
   align-items: center;
   background-color: #7f975961;
   border-radius: 12px;
@@ -832,15 +810,15 @@ body {
 }
 
 .container7 h1 {
-  font: 3em Caveat Brushf;
+  font: 2em Caveat Brushf;
   font-size: 3em;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   color: var(--text-white);
   text-align: center;
 }
 
 .reminder-list {
-  font-size: 1.5em;
+  font-size: 1.3em;
   font-family: "Caveat Brushf";
   text-align: center;
   padding-left: 20px;
@@ -877,7 +855,7 @@ body {
   }
 
   .venue-wrapper {
-    padding: 40px 0;
+    padding: 10px 0;
   }
 
   .venue-wrapper span{
@@ -887,7 +865,6 @@ body {
     position: relative;
     top: -70px;
     left: 110px;
-    margin-bottom: 20px;
   }
   
   .venue-container {
@@ -895,8 +872,7 @@ body {
   }
   
   .venue-container h1 {
-    font-size: 2.5em;
-    margin-bottom: 40px;
+    font-size: 2em;
   }
   
   .venue-grid {
@@ -948,9 +924,8 @@ body {
 
   .palette-img {
     width: 80%;
+    align-items: center;
     max-width: 300px;
-    margin-left: 70px;
-    padding-right: 0;
   }
 
   .container6 h1 {
@@ -962,7 +937,6 @@ body {
   
   .container6 h2 {
     font-size: 1.2em;
-    padding: 20px;
     position: relative;
     top: 0;
     left: 0;
@@ -1022,8 +996,8 @@ body {
   .content {
     font-size: 0.8em;
     padding: 10px;
-    height: 250px;
-    top: 199px;
+    height: 150px;
+    top: 200px;
     width: 90%;
   }
 
@@ -1059,8 +1033,13 @@ body {
     font-size: 0.5em;
   }
 
-    .venue-container h1 {
-    font-size: 2em;
+  .venue-container h1 {
+  font-size: 2em;
+  }
+
+  .venue-container h2 {
+  font-size: 2em;
+  padding: 0px;
   }
   
   .venue-wrapper span{
