@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { supabase } from "@/utils/Supabase/client";
+import SplashScreen from "./SplashScreen";
 import "./globals.css";
 
 // Define a proper type for gifts
@@ -267,12 +268,13 @@ export default function Home() {
   };
 
   return (
+    <SplashScreen>
     <>
       {/* HOME SECTION */}
       <div className="container1" id="home">
         <header className="header">
           <ul>
-            <li><a href="#venueandschedule">VENUE & SCHEDULE</a></li>
+            <li><a href="#venueandschedule">EVENT ORDER</a></li>
             <li><a href="#theme">THEME</a></li>
             <li className="logo-container">
               <a href="#home">
@@ -557,5 +559,6 @@ export default function Home() {
         </ul>
       </div>
     </>
+    </SplashScreen>
   );
 }
