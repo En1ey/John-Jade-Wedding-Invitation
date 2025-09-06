@@ -292,7 +292,7 @@ export default function Home() {
             <li><a href="#reminders">REMINDERS</a></li>
           </ul>
         </header>
-        <div className="content" id="home">
+        <div className="content pb-32" id="home">
           <h1>WE&apos;RE GETTING MARRIED!</h1>
           <span></span>
           <h3>October 25, 2025 | Opol, Misamis Oriental</h3>
@@ -300,18 +300,16 @@ export default function Home() {
           <p>and</p>
           <h2>Earla Jade Naiza</h2>
           <h4>cordially invite you to celebrate life and love</h4>
-          <Image
-            src="/assests/img/6.png"
-            alt="Bottom-img"
-            className="bottom-img"
-            width={800}
-            height={500}
-          />
         </div>
+      </div>  
+
+      <div className="venue-wrapper mt-1">
+        <hr className="w-full border-t-10 border-white border-b-10 border-double -mt-10" />
       </div>
 
       {/* VENUE & SCHEDULE */}
       <div className="venue-wrapper">
+        <span>Event Order</span>
         <div className="venue-container" id="venueandschedule">
           <div className="venue-grid">
             {/* Church Ceremony */}

@@ -169,11 +169,26 @@ body {
   padding: 0 20px;
 }
 
+.venue-wrapper span {
+  font: 2.5em Caveat Brushf;
+  color: var(--text-white);
+  text-align: center;
+  position: relative;
+  top: -70px;
+  left: 660px;
+  margin-bottom: 30px;
+}
+
 .venue-container h1 {
   font: 2.5em Caveat Brushf;
   color: var(--text-white);
   text-align: center;
+  position: relative;
   margin-bottom: 30px;
+}
+
+.venue-wrapper {
+  border: none;
 }
 
 .venue-container h2 {
@@ -857,8 +872,22 @@ body {
     gap: 10px;
   }
 
+  .content h3 {
+    font-size: 1em;
+  }
+
   .venue-wrapper {
     padding: 40px 0;
+  }
+
+  .venue-wrapper span{
+    font: 2.5em Caveat Brushf;
+    color: var(--text-white);
+    text-align: center;
+    position: relative;
+    top: -70px;
+    left: 110px;
+    margin-bottom: 20px;
   }
   
   .venue-container {
@@ -993,18 +1022,11 @@ body {
   .content {
     font-size: 0.8em;
     padding: 10px;
-    position: relative;
-    top: 120px;
+    height: 250px;
+    top: 208px;
     width: 90%;
   }
-  
-  .bottom-img {
-    width: 300px;
-    top: 245px;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-  
+
   .header {
     position: absolute;
     width: 100%;
@@ -1033,8 +1055,22 @@ body {
     font-size: 0.9em;
   }
 
+  .content h4 {
+    font-size: 0.5em;
+  }
+
     .venue-container h1 {
     font-size: 2em;
+  }
+  
+  .venue-wrapper span{
+    font: 2.5em Caveat Brushf;
+    color: var(--text-white);
+    text-align: center;
+    position: relative;
+    top: -70px;
+    left: 110px;
+    margin-bottom: 20px;
   }
   
   .venue-card {
