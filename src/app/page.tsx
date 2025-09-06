@@ -274,9 +274,7 @@ export default function Home() {
       <div className="container1" id="home">
         <header className="header">
           <ul>
-            <li><a href="#venueandschedule">EVENT ORDER</a></li>
-            <li><a href="#theme">THEME</a></li>
-            <li className="logo-container">
+              <li className="logo-container">
               <a href="#home">
                 <Image
                   src="/assests/img/logo.png"
@@ -286,7 +284,9 @@ export default function Home() {
                   height={110}
                 />
               </a>
-            </li>
+              </li>
+            <li><a href="#venueandschedule">EVENT ORDER</a></li>
+            <li><a href="#theme">THEME</a></li>
             <li><a href="#rsvp">RSVP</a></li>
             <li><a href="#giftguide">GIFT GUIDE</a></li>
             <li><a href="#reminders">REMINDERS</a></li>
