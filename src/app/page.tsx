@@ -381,7 +381,7 @@ export default function Home() {
 
       {/* RSVP SECTION */}
       <div className="container5" id="rsvp">
-        <h1>RSVP & EVENTS ORDER</h1>
+        <h1>RSVP</h1>
         <h2>
           Please confirm your attendance by filling out the form below.
           Your response helps us plan the perfect celebration!
@@ -456,8 +456,9 @@ export default function Home() {
               {isSubmittingRsvp ? "Submitting..." : "Submit RSVP"}
             </button>
           </div>
-
-          <div className="rsvp-image-section">       
+        </div>
+          <div className="rsvp-image-section">   
+            <h1>EVENTS ORDER</h1> 
             <div className="rsvp-image-container">
               <Image
                 src="/assests/img/chitos.png"
@@ -468,7 +469,6 @@ export default function Home() {
               />
             </div>
           </div>
-        </div>
       </div>
 
       {/* GIFT GUIDE */}
